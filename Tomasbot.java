@@ -66,10 +66,10 @@ public class Tomasbot extends AdvancedRobot
 		return angle;
 	}
 	
-	public WinEvent() {
-		while(1) {
+	public void WinEvent() {
+		while(true) {
 			turnGunRight(180);
-			turnleft(180);
+			turnLeft(180);
 		}
 	}
 }
