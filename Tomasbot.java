@@ -13,10 +13,13 @@ public class Tomasbot extends AdvancedRobot
 	/**
 	 * run: Tomasbot's default behavior
 	 */
+	
+	double direction = 1;
+
 	public void run() {
 		// Initialization of the robot should be put here
 
-		setColors(Color.blue,Color.white,Color.green); // body,gun,radar
+		setColors(Color.green,Color.red,Color.white); // body,gun,radar
 
 		setAdjustRadarForRobotTurn(true);
 		setAdjustGunForRobotTurn(true);
@@ -25,11 +28,13 @@ public class Tomasbot extends AdvancedRobot
 		// Robot main loop
 		while(true) {
 
-			setAhead(120);
-			setTurnRadarRight(360);
-			scan();
-			//execute();
-			back(120);
+			setAhead(120*direction);
+			setTurnRadarRightRadians(2*Math.PI);
+			if( getVelocity() == 0) {
+				direction*=-1;
+			}
+			execute();
+		    scan();
 			
 		}
 	}
@@ -60,16 +65,17 @@ public class Tomasbot extends AdvancedRobot
 	}
 
 	public void onHitWall(HitWallEvent e) {
-		back(20);
-		turnRight(90);
-		ahead(150);
+		direction*=-1;
+		ahead(120*direction);
 	}
 	
 	public void WinEvent() {
 		while(true) {
+			setColors(Color.red,Color.red,Color.red); 
 			setTurnGunRight(180);
 			setTurnLeft(180);
 			execute();
+			setColors(Color.blue,Color.blue,Color.blue); 
 		}
 	}
 }
