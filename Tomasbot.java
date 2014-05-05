@@ -44,21 +44,18 @@ public class Tomasbot extends AdvancedRobot
 		double offset = Math.asin(eLateralVelocity/bulletSpeed);
 		setTurnGunRightRadians(Utils.normalRelativeAngle( eAbsoluteBearing - getGunHeadingRadians() + offset ));
 
-		//mira simples
-		//turnGunRight(normalize( getHeading() - getGunHeading() + e.getBearing() ));
-
 		// if the gun is cool and we're pointed at the target, shoot!
 		if ( getGunHeat() == 0 && Math.abs(getGunTurnRemaining()) < 10 ) {
 			setFire(firePower);
 		}
-		execute();
 			
 		turnRadarRightRadians(Utils.normalRelativeAngle( getHeadingRadians() + e.getBearingRadians() - getRadarHeadingRadians() ));
+		execute();
 
 	}
 
 	public void onHitByBullet(HitByBulletEvent e) {
-		setTurnRight(normalize( e.getBearing() + 90 ));
+		setTurnRightRadians(Utils.normalRelativeAngle( e.getBearingRadians() + Math.PI/2 ));
 	}
 
 	public void onHitWall(HitWallEvent e) {
@@ -67,17 +64,11 @@ public class Tomasbot extends AdvancedRobot
 		ahead(150);
 	}
 	
-	// normalizes a bearing to between +180 and -180
-	double normalize(double angle) {
-		while (angle >  180){ angle -= 360;}
-		while (angle < -180){ angle += 360;}
-		return angle;
-	}
-	
 	public void WinEvent() {
 		while(true) {
-			turnGunRight(180);
-			turnLeft(180);
+			setTurnGunRight(180);
+			setTurnLeft(180);
+			execute();
 		}
 	}
 }
