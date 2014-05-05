@@ -15,6 +15,7 @@ public class Tomasbot extends AdvancedRobot
 	 */
 	
 	double direction = 1;
+	int i=0;
 
 	public void run() {
 		// Initialization of the robot should be put here
@@ -28,11 +29,7 @@ public class Tomasbot extends AdvancedRobot
 		// Robot main loop
 		while(true) {
 
-			setAhead(120*direction);
 			setTurnRadarRightRadians(2*Math.PI);
-			if( getVelocity() == 0) {
-				direction*=-1;
-			}
 			execute();
 		    scan();
 			
@@ -40,6 +37,12 @@ public class Tomasbot extends AdvancedRobot
 	}
 	
 	public void onScannedRobot(ScannedRobotEvent e) {
+		setAhead(100*direction);	
+		i++;
+		if( i>20 ) {
+			direction*=-1;
+			i=0;
+		}
 		// calculate firepower based on distance
 		double fp = Math.min(500 / e.getDistance(), 3);
 		double firePower = Math.min( fp , getEnergy()/10 );	
@@ -66,7 +69,11 @@ public class Tomasbot extends AdvancedRobot
 
 	public void onHitWall(HitWallEvent e) {
 		direction*=-1;
-		ahead(120*direction);
+		setAhead(160*direction);
+		setTurnRightRadians(Math.PI/4);
+	}
+	public void onHitRobot(HitRobotEvent e) {
+		direction*=-1;
 	}
 	
 	public void WinEvent() {
