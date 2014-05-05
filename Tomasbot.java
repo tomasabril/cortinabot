@@ -36,7 +36,8 @@ public class Tomasbot extends AdvancedRobot
 	
 	public void onScannedRobot(ScannedRobotEvent e) {
 		// calculate firepower based on distance
-		double firePower = Math.min(500 / e.getDistance(), 3);
+		double fp = Math.min(500 / e.getDistance(), 3);
+		double firePower = Math.min( fp , getEnergy()/10 );	
 		double bulletSpeed = 20 - firePower * 3;
 
 		double eAbsoluteBearing = getHeadingRadians() + e.getBearingRadians();
