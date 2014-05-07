@@ -1,3 +1,7 @@
+/*
+Tomás Abril -2014
+*/
+
 package cortinabot;
 import robocode.*;
 import robocode.util.Utils;
